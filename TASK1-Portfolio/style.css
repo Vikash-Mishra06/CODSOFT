@@ -1,0 +1,342 @@
+/* ===========================
+   PORTFOLIO — UPDATED style.css
+   Pixel-faithful fixes: spacing, typography, gradients, glow,
+   avatar ring, card shadows, buttons, responsive adjustments.
+   =========================== */
+
+:root{
+  /* HSL-based design tokens (kept close to Tailwind originals) */
+  --bg-h: 220; --bg-s: 26%; --bg-l: 6%;
+  --fg-h: 210; --fg-s: 40%; --fg-l: 98%;
+
+  --card-h: 220; --card-s: 23%; --card-l: 10%;
+  --primary-h: 189; --primary-s: 94%; --primary-l: 43%;
+  --accent-h: 220; --accent-s: 90%; --accent-l: 56%;
+
+  --muted-h: 215; --muted-s: 20%; --muted-l: 65%;
+
+  --radius: 14px;
+  --container: 1200px;
+  --shadow-glow: 0 22px 60px rgba(139,92,246,0.14);
+  --card-shadow: 0 8px 30px rgba(2,6,23,0.58);
+  --button-shadow: 0 8px 30px rgba(6,182,212,0.08);
+  --transition: all 0.28s cubic-bezier(.4,0,.2,1);
+}
+
+/* base reset */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:
+    radial-gradient(800px 400px at 8% 12%, rgba(139,92,246,0.06), transparent 8%),
+    linear-gradient(180deg, hsl(var(--bg-h) var(--bg-s) var(--bg-l)), #060607 100%);
+  color: hsl(var(--fg-h) var(--fg-s) var(--fg-l));
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.5;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-variant-ligatures: none;
+}
+
+/* container */
+.container{
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* TYPOGRAPHY SCALE (adjusted to match Tailwind look) */
+h1,h2,h3,h4{margin:0}
+h1{font-weight:800}
+h2{font-weight:800}
+p{margin:0}
+
+/* HEADER / HERO */
+.site-header{
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  position:relative;
+  overflow:hidden;
+  padding:48px 0 64px;
+  z-index:2;
+}
+.header-inner{
+  display:flex;
+  gap:40px;
+  align-items:center;
+  justify-content:flex-start;
+}
+
+/* Avatar & glow ring: tuned sizes and ring thickness to match Tailwind */
+.avatar-wrap{
+  position:relative;
+  width:160px;
+  height:160px;
+  flex:0 0 160px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.avatar{
+  width:152px;
+  height:152px;
+  border-radius:999px;
+  object-fit:cover;
+  border:6px solid hsl(var(--card-h) var(--card-s) calc(var(--card-l) + 6%)/0.12);
+  display:block;
+  position:relative;
+  z-index:3;
+  box-shadow: 0 12px 40px rgba(2,6,23,0.6);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.avatar-glow{
+  position:absolute;
+  left:0; top:0; right:0; bottom:0;
+  border-radius:999px;
+  background: radial-gradient(circle at 30% 30%, hsla(var(--primary-h),var(--primary-s),calc(var(--primary-l) + 2%),0.24), transparent 30%),
+              radial-gradient(circle at 70% 70%, hsla(var(--accent-h),var(--accent-s),calc(var(--accent-l) - 6%),0.18), transparent 28%);
+  filter: blur(20px);
+  z-index:1;
+  transform: translateZ(0);
+  transition: opacity var(--transition);
+  opacity:0.95;
+}
+
+/* Slight lift on hover to match animated group effect */
+.avatar-wrap:hover .avatar{ transform: translateY(-6px); }
+.avatar-wrap:hover .avatar-glow{ filter: blur(28px); opacity:1 }
+
+/* hero text sizes tuned */
+.hero-content{flex:1; max-width:920px}
+.hero-title{font-size:48px; line-height:1; margin:0 0 8px; letter-spacing:-0.6px}
+.hero-sub{color: hsla(var(--muted-h), var(--muted-s), var(--muted-l), 0.95); font-size:18px; margin:0 0 12px}
+.hero-desc{color: rgba(255,255,255,0.88); font-size:16px; max-width:720px; margin-bottom:20px}
+
+/* gradient heading emphasis (exact gradient) */
+.gradient-text{
+  background: linear-gradient(90deg, hsl(var(--primary-h) var(--primary-s) calc(var(--primary-l) + 4%)), hsl(var(--accent-h) var(--accent-s) var(--accent-l)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display:inline-block;
+}
+
+/* Buttons adjusted: radii, shadow, focus outlines */
+.btn{
+  display:inline-block;
+  text-decoration:none;
+  padding:12px 20px;
+  border-radius:12px;
+  font-weight:700;
+  transition: var(--transition);
+  text-align:center;
+  cursor:pointer;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+.btn.primary{
+  background: linear-gradient(135deg, hsl(var(--primary-h) var(--primary-s) var(--primary-l)), hsl(var(--accent-h) var(--accent-s) var(--accent-l)));
+  color: #030307;
+  box-shadow: var(--shadow-glow);
+  border: 0;
+}
+.btn.primary:hover{ transform: translateY(-4px) scale(1.01); filter:brightness(1.02) }
+.btn.primary:active{ transform: translateY(-1px) }
+
+.btn.outline{
+  border: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.96);
+  background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.008));
+}
+.btn.outline:hover{ transform: translateY(-3px); border-color: rgba(139,92,246,0.85); box-shadow: 0 12px 30px rgba(139,92,246,0.06) }
+
+/* call-to-action layout */
+.hero-ctas{display:flex; gap:14px; align-items:center}
+
+/* SECTION spacing and titles */
+.section{padding:72px 0}
+.section-title{font-size:34px;margin:0 0 22px;font-weight:800;text-align:center; letter-spacing:-0.6px}
+
+/* Card base appearance tuned to match Tailwind 'card-gradient' + glass */
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008));
+  border-radius:14px;
+  border: 1px solid rgba(255,255,255,0.04);
+  padding:20px;
+  box-shadow: var(--card-shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+/* ABOUT */
+.about-card{max-width:920px;margin: 0 auto; font-size:16px; color:rgba(255,255,255,0.94)}
+
+/* SKILLS: columns, tags, hover states */
+.skills-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap:18px;
+  align-items:start;
+}
+.skill-card{
+  padding:22px;
+  border-radius:12px;
+  background: linear-gradient(180deg, rgba(8,8,12,0.28), rgba(8,8,12,0.16));
+  border: 1px solid rgba(255,255,255,0.03);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.skill-card:hover{ transform: translateY(-8px); box-shadow: 0 20px 60px rgba(2,6,23,0.6) }
+.skill-card h3{margin:0 0 12px;font-size:18px}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tags span{
+  background: rgba(139,92,246,0.06);
+  color: hsl(var(--primary-h) var(--primary-s) calc(var(--primary-l) - 16%));
+  padding:8px 12px;
+  border-radius:999px;
+  font-size:13px;
+  border: 1px solid rgba(139,92,246,0.06);
+  display:inline-block;
+}
+
+.skill-space {
+  margin-top: 50px;
+}
+
+/* wide card spans two columns (desktop only) */
+.skill-card.wide{grid-column: span 2}
+
+/* PROJECTS: layout tuned */
+.projects-grid{
+  display:grid;
+  /* keep two columns on wide screens, collapse on smaller sizes */
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap:28px;
+  margin-top:28px;
+}
+.project-card{
+  position:relative;
+  padding:28px 26px;
+  border-radius:18px;
+  background: linear-gradient(180deg, rgba(15,16,18,0.68), rgba(8,9,12,0.45));
+  border: 1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 28px 80px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+  overflow:hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.project-card:hover{ transform: translateY(-10px); box-shadow: 0 40px 120px rgba(2,6,23,0.72) }
+
+/* subtle top-left accent bar / backdrop like the screenshot */
+.project-card::before{
+  content: "";
+  position:absolute;
+  left:-8%; right:-8%; top:-18px; height:140px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
+  filter: blur(18px);
+  opacity:0.08;
+  transform: translateZ(0);
+  pointer-events:none;
+}
+
+.project-space {
+  margin-top: 60px;
+}
+
+.project-header{margin-bottom:14px}
+.project-eyebrow{font-size:13px;color:rgba(255,255,255,0.64); margin-bottom:10px; display:inline-block}
+.project-title{font-size:22px;margin:0 0 6px}
+.project-sub{font-size:14px;color:hsl(var(--primary-h) var(--primary-s) calc(var(--primary-l) - 18%)); font-weight:700}
+.project-desc{color:rgba(255,255,255,0.92); margin:12px 0 18px; line-height:1.5}
+.project-stack{font-size:13px;color:rgba(255,255,255,0.72); margin-bottom:14px}
+.project-links{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+/* small and large variations for buttons to match sizes */
+.btn.small{padding:8px 12px;font-size:14px;border-radius:10px}
+.btn.large{padding:14px 26px;font-size:16px;border-radius:12px}
+
+/* Style the outline/code button to be visually darker like screenshot */
+.btn.outline.small{
+  background: rgba(2,6,12,0.55);
+  color: rgba(255,255,255,0.94);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 8px 18px rgba(2,6,23,0.45);
+}
+
+/* stronger, elevated 'Live' primary look */
+.btn.primary.small{
+  padding:9px 14px;
+  border-radius:14px;
+  box-shadow: 0 10px 36px rgba(3,156,230,0.28), 0 6px 18px rgba(3,156,230,0.12);
+}
+.btn.primary.small:hover{ transform: translateY(-4px) scale(1.02); filter:brightness(1.06) }
+
+/* RESUME */
+.resume-wrap{text-align:center}
+.resume-desc{max-width:720px;margin:0 auto 18px;color:rgba(255,255,255,0.92)}
+.resume-space{
+  padding: 10px 0 10px 0;
+}
+
+/* CONTACT */
+.contact-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap:16px;
+  margin-top:18px;
+}
+.contact-card{
+  display:block;
+  padding:18px;
+  border-radius:12px;
+  text-decoration:none;
+  color:inherit;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.03);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.contact-card:hover{ transform: translateY(-8px); box-shadow: var(--shadow-glow) }
+.contact-title{font-size:13px;color:rgba(255,255,255,0.6); margin-bottom:6px}
+.contact-value{font-weight:700; font-size:15px}
+
+/* FOOTER */
+.site-footer{border-top:1px solid rgba(255,255,255,0.04); padding:28px 0; margin-top:36px}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.footer-inner .built{color:rgba(255,255,255,0.6); font-size:13px}
+
+/* Subtle entrance animation for sections (mimics tailwind animate classes) */
+@keyframes entrance {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.section { animation: entrance 0.5s ease both; }
+
+/* RESPONSIVE TUNING: refined breakpoints and spacing to match original */
+@media (max-width: 1100px){
+  .container{padding:0 18px}
+  .avatar-wrap{width:140px;height:140px}
+  .avatar{width:132px;height:132px;border-width:5px}
+  .hero-title{font-size:40px}
+  .hero-desc{font-size:15px}
+  .header-inner{gap:22px}
+}
+@media (max-width: 900px){
+  .header-inner{flex-direction:column; align-items:center; text-align:center; gap:18px; padding-bottom:6px}
+  .avatar-wrap{width:140px;height:140px}
+  .avatar{width:132px;height:132px}
+  .hero-title{font-size:30px}
+  .hero-sub{font-size:16px}
+  .hero-desc{font-size:15px; max-width:100%}
+  .hero-ctas{justify-content:center; flex-wrap:wrap}
+  .skills-grid{grid-template-columns:1fr}
+  .skill-card.wide{grid-column:auto}
+  .projects-grid{grid-template-columns:1fr}
+  .footer-inner{flex-direction:column; gap:8px; text-align:center}
+}
+@media (max-width: 520px){
+  .avatar-wrap{width:110px;height:110px}
+  .avatar{width:102px;height:102px;border-width:4px}
+  .hero-title{font-size:26px}
+  .btn{padding:10px 14px}
+  .btn.large{padding:12px 18px}
+}
